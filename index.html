@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ultimate Kawaii Birthday 🎀</title>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+
+body{
+background:linear-gradient(-45deg,#ffd6ec,#ffe6f7,#fff0f7,#ffd1ea);
+background-size:400% 400%;
+animation:bgMove 12s ease infinite;
+overflow-x:hidden;text-align:center;padding:10px;
+}
+
+@keyframes bgMove{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+h1{
+font-family:'Pacifico',cursive;
+color:#ff1493;
+margin-top:15px;
+font-size:clamp(1.6rem,5vw,2.3rem);
+text-shadow:0 0 20px #ff69b4;
+}
+
+.container{display:none;padding:15px;}
+
+button{
+background:#ff69b4;border:none;color:white;
+padding:12px 20px;border-radius:30px;
+margin:8px;cursor:pointer;
+font-size:clamp(0.8rem,3vw,1rem);
+box-shadow:0 5px 15px rgba(255,105,180,.4);
+transition:.3s;width:90%;max-width:250px;
+}
+button:hover{background:#ff1493;transform:scale(1.05);}
+
+.countdown{color:#ff1493;font-weight:bold;margin-top:10px;}
+
+.slide{
+display:none;width:95%;max-width:320px;
+border-radius:20px;margin:12px auto;
+box-shadow:0 10px 20px rgba(255,105,180,.4);
+}
+
+.letter{
+background:white;padding:15px;border-radius:20px;
+max-width:350px;margin:20px auto;color:#d63384;
+box-shadow:0 5px 15px rgba(255,105,180,.3);
+}
+
+.typing{border-right:2px solid #ff1493;white-space:pre-wrap;}
+
+.lockScreen{
+position:fixed;top:0;left:0;width:100%;height:100%;
+background:#fff0f7;display:flex;
+flex-direction:column;justify-content:center;align-items:center;
+padding:20px;
+}
+
+input{
+padding:10px;border-radius:20px;
+border:2px solid #ff69b4;margin:10px;
+text-align:center;width:90%;max-width:250px;
+}
+
+/* 🎂 CAKE */
+.cake-container{margin:25px auto;cursor:pointer;}
+.cake{
+width:160px;height:100px;background:#ff69b4;
+border-radius:10px 10px 20px 20px;margin:auto;
+position:relative;transition:0.8s;
+}
+.cake::before{
+content:"";position:absolute;top:-25px;left:0;
+width:160px;height:35px;background:#ffc0cb;
+border-radius:50%;
+}
+.slice{
+position:absolute;width:50%;height:100%;
+background:#ff85c1;right:0;top:0;
+border-radius:0 10px 20px 0;
+transition:0.8s;
+}
+.knife{
+position:absolute;width:6px;height:120px;
+background:silver;top:-60px;left:50%;
+transform:translateX(-50%) rotate(20deg);
+transition:0.8s;
+}
+.candle{
+position:absolute;top:-45px;left:50%;
+transform:translateX(-50%);
+width:10px;height:30px;background:white;
+border-radius:3px;
+}
+.flame{
+width:12px;height:18px;background:orange;
+border-radius:50%;position:absolute;
+top:-18px;left:-1px;
+animation:flicker 0.3s infinite alternate;
+}
+@keyframes flicker{
+from{transform:scale(1);}
+to{transform:scale(1.1);}
+}
+
+/* animation states */
+.cut .knife{transform:translateX(-50%) rotate(90deg);}
+.cut .slice{transform:translateX(60px);}
+.cut .flame{display:none;}
+
+.heart{
+position:fixed;bottom:-20px;
+animation:rise 5s linear infinite;
+pointer-events:none;
+}
+@keyframes rise{
+0%{transform:translateY(0);}
+100%{transform:translateY(-110vh);opacity:0;}
+}
+
+.firework{
+position:fixed;width:8px;height:8px;border-radius:50%;
+animation:explode 1s ease-out forwards;
+}
+@keyframes explode{
+0%{transform:scale(1);opacity:1;}
+100%{transform:scale(25);opacity:0;}
+}
+
+.confetti{
+position:fixed;width:8px;height:8px;
+animation:fall 4s linear forwards;
+}
+@keyframes fall{
+0%{transform:translateY(-10vh);}
+100%{transform:translateY(110vh);}
+}
+</style>
+</head>
+<body>
+
+<div class="lockScreen" id="lock">
+<h1>🎀 Enter Secret Code 🎀</h1>
+<input type="password" id="pass" placeholder="Enter password">
+<button onclick="unlock()">Unlock 💖</button>
+</div>
+
+<div class="container" id="main">
+
+<h1>🎀 Happy Birthday <span id="name">APARNIKA</span> 🎀</h1>
+<div class="countdown" id="countdown"></div>
+
+<!-- 🎂 CAKE -->
+<div class="cake-container" onclick="cutCake()">
+<div class="cake" id="cake">
+<div class="knife"></div>
+<div class="slice"></div>
+<div class="candle"><div class="flame"></div></div>
+</div>
+<p style="color:#ff1493;font-weight:bold;">Tap Cake to Cut 🎂</p>
+</div>
+
+<button onclick="launchFireworks()">Celebrate 🎆</button>
+<button onclick="toggleMusic()">🎵 Play / Pause Music</button>
+
+<img class="slide" src="photo1.jpg">
+<img class="slide" src="photo2.jpg">
+<img class="slide" src="photo3.jpg">
+
+<div class="letter">
+<h3>💌 A LETTER FOR YOU 💌</h3>
+<p class="typing" id="typing"></p>
+</div>
+
+</div>
+
+<audio id="music" loop>
+<source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+// PASSWORD
+function unlock(){
+if(document.getElementById("pass").value==="Kitty123"){
+document.getElementById("lock").style.display="none";
+document.getElementById("main").style.display="block";
+startTyping();
+showSlides();
+}
+else alert("Wrong password 💔");
+}
+
+// MUSIC
+let music=document.getElementById("music");
+function toggleMusic(){
+if(music.paused){music.play();}
+else{music.pause();}
+}
+
+// COUNTDOWN
+let birthday=new Date("March 04, 2026 00:00:00").getTime();
+setInterval(()=>{
+let now=new Date().getTime();
+let d=birthday-now;
+if(d>0){
+let days=Math.floor(d/(1000*60*60*24));
+document.getElementById("countdown").innerHTML="⏳ "+days+" days left!";
+}else{
+document.getElementById("countdown").innerHTML="🎉 IT'S TODAY!!!";
+}
+},1000);
+
+// TYPING
+let text="Happy Birthday 💖 I hope this year gives you everything you dream of. Stay iconic, stay magical, and never stop shining ✨";
+let i=0;
+function startTyping(){
+function type(){
+if(i<text.length){
+document.getElementById("typing").innerHTML+=text.charAt(i);
+i++;setTimeout(type,40);
+}}
+type();
+}
+
+// SLIDESHOW
+let slideIndex=0;
+let slides=document.getElementsByClassName("slide");
+function showSlides(){
+function cycle(){
+for(let i=0;i<slides.length;i++){
+slides[i].style.display="none";
+}
+slideIndex++;
+if(slideIndex>slides.length){slideIndex=1;}
+slides[slideIndex-1].style.display="block";
+setTimeout(cycle,3000);
+}
+cycle();
+}
+
+// 🎂 CUT CAKE
+function cutCake(){
+let cake=document.getElementById("cake");
+cake.classList.add("cut");
+launchFireworks();
+openConfetti();
+setTimeout(()=>{cake.classList.remove("cut");},2000);
+}
+
+// FIREWORKS
+function launchFireworks(){
+for(let i=0;i<40;i++){
+let f=document.createElement("div");
+f.classList.add("firework");
+f.style.left=Math.random()*window.innerWidth+"px";
+f.style.top=Math.random()*window.innerHeight+"px";
+f.style.background=["#ff69b4","#ff1493","#ffc0cb","#fff"][Math.floor(Math.random()*4)];
+document.body.appendChild(f);
+setTimeout(()=>f.remove(),1000);
+}
+}
+
+// CONFETTI
+function openConfetti(){
+for(let i=0;i<80;i++){
+let c=document.createElement("div");
+c.classList.add("confetti");
+c.style.left=Math.random()*window.innerWidth+"px";
+c.style.background=["#ff69b4","#ffc0cb","#fff","#ff1493"][Math.floor(Math.random()*4)];
+document.body.appendChild(c);
+setTimeout(()=>c.remove(),4000);
+}
+}
+
+// HEARTS
+setInterval(()=>{
+let h=document.createElement("div");
+h.classList.add("heart");
+h.innerHTML="💗";
+h.style.left=Math.random()*window.innerWidth+"px";
+h.style.fontSize=(Math.random()*20+15)+"px";
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),5000);
+},600);
+
+</script>
+
+</body>
+</html>
